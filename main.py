@@ -6,16 +6,12 @@ import os
 choose = ()
 
 db_session.global_init("db/notes.db")
-db_ses = db_session.create_session()
+db_sess = db_session.create_session()
 
-const = len(db_ses.query(Note).all())
-
-db_ses.commit()
+const = len(db_sess.query(Note).all())
 
 
 def get_list_of_notes(n=None, f='', s=0, oa=0):
-    db_session.global_init("db/notes.db")
-    db_sess = db_session.create_session()
     notes = {i.id: {'text': i.text if i.text else '', 'tags': i.tags if i.tags else '', 'date': i.date,
                     'ad_tags': i.ad_tags if i.ad_tags else '', 'created_date': i.created_date}
              for i in db_sess.query(Note).all()}
@@ -49,8 +45,6 @@ def get_list_of_notes(n=None, f='', s=0, oa=0):
 
 
 def get_item_from_db(n):
-    db_session.global_init("db/notes.db")
-    db_sess = db_session.create_session()
     note = db_sess.query(Note).filter(Note.id == int(n)).first()
     return {note.id: {'text': note.text if note.text else '', 'tags': note.tags if note.tags else '', 'date': note.date,
                       'ad_tags': note.ad_tags if note.ad_tags else '', 'created_date': note.created_date}}
@@ -84,8 +78,6 @@ def view_one_note(a):
 
 
 def change_ad_tags(n):
-    db_session.global_init("db/notes.db")
-    db_sess = db_session.create_session()
     note = db_sess.query(Note).filter(Note.id == int(n)).first()
 
     def save(*x):
